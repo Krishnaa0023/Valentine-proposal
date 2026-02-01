@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will you be my Valentine?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFB6C1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Image Container */
+        .image-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #FFB6C1;
+            border: 2px dashed #FFB6C1;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 12px;
+        }
+
+        .placeholder-text {
+            color: #999;
+            font-size: 16px;
+        }
+
+        /* Question Text */
+        .question {
+            font-size: 48px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 40px;
+            white-space: nowrap;
+        }
+
+        /* Buttons Container */
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 80px;
+        }
+
+        /* Button Base Styles */
+        .btn {
+            padding: 18px 48px;
+            border: none;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        /* Yes Button */
+        .yes-btn {
+            background-color: #4CAF50;
+            transform-origin: center;
+        }
+
+        .yes-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .yes-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* No Button */
+        .no-btn {
+            background-color: #f44336;
+            transition: all 0.3s ease;
+        }
+
+        .no-btn:hover {
+            background-color: #da190b;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-gif {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #FFB6C1;
+            border: 2px dashed #FFB6C1;
+        }
+
+        .success-gif img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 12px;
+        }
+
+        .success-text {
+            font-size: 48px;
+            font-weight: 700;
+            color: black;
+        }
+
+        /* Sparkles/Confetti Animation */
+        .sparkle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: sparkle-fall 3s linear infinite;
+        }
+
+        .heart-sparkle {
+            font-size: 20px;
+            animation: heart-fall 4s linear infinite;
+        }
+
+        @keyframes sparkle-fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes heart-fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .content.hidden {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .image-container, .success-gif {
+                width: 250px;
+                height: 250px;
+            }
+
+            .question {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            .btn {
+                padding: 14px 36px;
+                font-size: 20px;
+            }
+
+            .success-text {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-container, .success-gif {
+                width: 200px;
+                height: 200px;
+            }
+
+            .question {
+                font-size: 20px;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 18px;
+            }
+
+            .success-text {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Content -->
+        <div class="content" id="mainContent">
+            <!-- GIF Container -->
+            <!-- REPLACE 'your-gif.gif' with your own GIF path -->
+            <div class="image-container">
+                <!-- Uncomment and replace with your GIF -->
+                <img src="./bearish-bearish-af.gif" alt="cute gif">
+
+                <!-- Placeholder (remove when adding GIF) -->
+                <!-- <div class="placeholder-text"></div> -->
+            </div>
+
+            <!-- Question -->
+            <h1 class="question">Will you be my Valentine?</h1>
+
+            <!-- Buttons -->
+            <div class="buttons-container" id="buttonsContainer">
+                <button class="btn yes-btn" id="yesBtn">Yes</button>
+                <button class="btn no-btn" id="noBtn">No</button>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <!-- Success GIF -->
+            <!-- REPLACE 'your-success-gif.gif' with your own GIF path -->
+            <div class="success-gif">
+                <!-- Uncomment and replace with your success GIF -->
+                <img src="./dudu-scared-bubu-dudu-kiss.gif" alt="success gif">
+
+                <!-- Placeholder (remove when adding GIF) -->
+                <!-- <div class="placeholder-text"></div> -->
+            </div>
+
+            <div class="success-text">
+                DEKHAAAAAAA AAP HO HI MERI ASIQQQ!!!🥺❤️😘
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <!-- REPLACE 'your-song.mp3' with your own song file path -->
+    <audio id="successAudio" loop>
+        <source src="./youre_my_honeybunch.mp3" type="audio/mpeg">
+        <!-- For .mp4 or .m4a files, use: <source src="your-song.m4a" type="audio/mp4"> -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Sparkle Container -->
+    <div class="sparkle-container" id="sparkleContainer"></div>
+
+    <script>
+        // DOM Elements
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainContent = document.getElementById('mainContent');
+        const successMessage = document.getElementById('successMessage');
+        const buttonsContainer = document.getElementById('buttonsContainer');
+        const successAudio = document.getElementById('successAudio');
+        const sparkleContainer = document.getElementById('sparkleContainer');
+
+        // Array of messages for the "No" button
+        const noMessages = [
+            "No",
+            "Are you sure?",
+            "Please?",
+            "Pretty please?",
+            "I'll get you cookies 🍪",
+            "I'll die without you 💔",
+            "Think again!",
+            "Really? 🥺",
+            "But why?",
+            "Give me a chance!",
+            "Don't be mean 😢",
+            "Okay fine... JK, please?",
+            "I'm on my knees 🙏",
+            "You're breaking my heart",
+            "Last chance!"
+        ];
+
+        let messageIndex = 0;
+        let yesScale = 1;
+
+        // Move "No" button to random position
+        function moveNoButton() {
+            const containerRect = buttonsContainer.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            // Calculate random position within viewport
+            const maxX = window.innerWidth - btnRect.width - 40;
+            const maxY = window.innerHeight - btnRect.height - 40;
+
+            const randomX = Math.random() * maxX + 20;
+            const randomY = Math.random() * maxY + 20;
+
+            // Apply position
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            // Change button text
+            messageIndex = (messageIndex + 1) % noMessages.length;
+            noBtn.textContent = noMessages[messageIndex];
+
+            // Grow "Yes" button
+            yesScale += 0.12; // 12% growth
+            yesBtn.style.transform = `scale(${yesScale})`;
+        }
+
+        // Handle "No" button hover
+        noBtn.addEventListener('mouseenter', () => {
+            moveNoButton();
+        });
+
+        // Handle "No" button click attempt
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Handle "No" button touch (mobile)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Create sparkles/confetti
+        function createSparkles() {
+            const colors = ['#FF69B4', '#FFB6C1', '#FFC0CB', '#FF1493', '#FF69B4', '#FFD700', '#FFA500'];
+            const symbols = ['✨', '⭐', '💖', '💕', '💗', '💝', '💓', '❤️'];
+
+            // Create confetti pieces
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    sparkleContainer.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 5000);
+                }, i * 30);
+            }
+
+            // Create falling hearts
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-sparkle';
+                    heart.style.position = 'absolute';
+                    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 1 + 's';
+                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    sparkleContainer.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 100);
+            }
+        }
+
+        // Handle "Yes" button click
+        yesBtn.addEventListener('click', () => {
+            mainContent.classList.add('hidden');
+            successMessage.classList.add('active');
+
+            // Play audio
+            successAudio.play().catch(err => {
+                console.log('Audio autoplay prevented:', err);
+                // Note: Some browsers block autoplay. User interaction should allow it.
+            });
+
+            // Create sparkles
+            createSparkles();
+
+            // Continue creating sparkles every 3 seconds
+            setInterval(createSparkles, 3000);
+        });
+
+        // Prevent scrolling when touching "No" button on mobile
+        document.body.addEventListener('touchmove', (e) => {
+            if (e.target === noBtn || noBtn.contains(e.target)) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
